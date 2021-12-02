@@ -1,0 +1,17 @@
+[package]
+name = "advent_of_code_2021"
+version = "0.1.0"
+edition = "2021"
+license-file = "../LICENSE-MIT"
+authors = ["Johnny T. Vestergaard (jtv@jrtv.dk)"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+serde = { version = "1.0.130", features = ["derive"] }
+csv = "1.1.6"
+structopt = "0.3.25"
+anyhow = "1.0.51"
+itertools = "0.10.1"
+
+[dev-dependencies]
