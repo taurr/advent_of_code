@@ -15,3 +15,4 @@ anyhow = "1.0.51"
 itertools = "0.10.1"
 
 [dev-dependencies]
+tempfile = "3.2.0"
