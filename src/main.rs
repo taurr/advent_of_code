@@ -6,6 +6,7 @@ use std::{fs::File, path::Path};
 use structopt::StructOpt;
 
 mod day1;
+mod day2;
 
 #[derive(Debug, StructOpt)]
 struct Args {
@@ -47,7 +48,7 @@ fn main() -> Result<()> {
     let args = Args::from_args_safe()?;
     match args.puzzle {
         Day::Day1 => day1::solve_puzzle(args.input.as_path()),
-        Day::Day2 => todo!(),
+        Day::Day2 => day2::solve_puzzle(args.input.as_path()),
         Day::Day3 => todo!(),
         Day::Day4 => todo!(),
         Day::Day5 => todo!(),
@@ -74,14 +75,14 @@ fn main() -> Result<()> {
     }
 }
 
-fn read_csv<T>(file_path: &Path, headers: &[&str]) -> Result<Vec<T>>
+fn read_csv<T>(file_path: &Path, headers: &[&str], delimiter: u8) -> Result<Vec<T>>
 where
     for<'de> T: Deserialize<'de>,
 {
     let mut result = vec![];
     let reader = File::open(file_path)?;
     let mut rdr = csv::ReaderBuilder::default()
-        .delimiter(b'\t')
+        .delimiter(delimiter)
         .trim(csv::Trim::All)
         .from_reader(reader);
     rdr.set_headers(StringRecord::from(headers));
@@ -123,7 +124,7 @@ mod tests {
         let path = create_input(&dir, &["123", "456"])?;
         assert_eq!(
             vec![TestInput { val: 123.0_f64 }, TestInput { val: 456.0_f64 },],
-            read_csv(path.as_path(), &["val"])?
+            read_csv(path.as_path(), &["val"], b'\t')?
         );
         Ok(())
     }
