@@ -1,7 +1,6 @@
 use anyhow::Result;
-use itertools::*;
-use serde::{de::DeserializeOwned, Deserialize, Deserializer};
-use std::{iter::Map, path::Path};
+use serde::Deserialize;
+use std::path::Path;
 
 use crate::read_csv;
 
