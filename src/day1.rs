@@ -41,8 +41,7 @@ mod tests {
     use crate::{create_input, read_csv};
     use anyhow::Result;
 
-    #[test]
-    fn example_day1_part1() -> Result<()> {
+    fn example_puzzle_input() -> Result<Vec<Day1Input>, anyhow::Error> {
         let dir = tempfile::tempdir()?;
         let path = create_input(
             &dir,
@@ -51,20 +50,19 @@ mod tests {
             ],
         )?;
         let input = read_csv(path.as_path(), &["depth"], b'\t')?;
+        Ok(input)
+    }
+
+    #[test]
+    fn example_day1_part1() -> Result<()> {
+        let input = example_puzzle_input()?;
         assert_eq!(7, day1_part1(&input));
         Ok(())
     }
 
     #[test]
     fn example_day1_part2() -> Result<()> {
-        let dir = tempfile::tempdir()?;
-        let path = create_input(
-            &dir,
-            &[
-                "199", "200", "208", "210", "200", "207", "240", "269", "260", "263",
-            ],
-        )?;
-        let input = read_csv(path.as_path(), &["depth"], b'\t')?;
+        let input = example_puzzle_input()?;
         assert_eq!(5, day1_part2(&input));
         Ok(())
     }
