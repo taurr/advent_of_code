@@ -16,7 +16,9 @@ fn main() -> Result<()> {
     let count = input
         .iter()
         .tuple_windows()
-        .filter(|(a, b)| b.depth > a.depth)
+        .map(|(a, b, c)| a.depth + b.depth + c.depth)
+        .tuple_windows()
+        .filter(|(a, b)| b > a)
         .count();
 
     println!("Answer: {}", count);
