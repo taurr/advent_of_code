@@ -89,14 +89,14 @@ mod tests {
     }
 
     #[test]
-    fn example_day2_part1() -> Result<()> {
+    fn example_part1() -> Result<()> {
         let input = example_puzzle_input()?;
         assert_eq!(150, day2_part1(&input));
         Ok(())
     }
 
     #[test]
-    fn example_day1_part2() -> Result<()> {
+    fn example_part2() -> Result<()> {
         let input = example_puzzle_input()?;
         assert_eq!(900, day2_part2(&input));
         Ok(())
