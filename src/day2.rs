@@ -27,12 +27,12 @@ struct SubmarinePosition {
 
 pub fn solve_puzzle(input_path: &Path) -> Result<()> {
     let input = read_csv(input_path, &["direction", "steps"], b' ')?;
-    println!("Day2, Part1: {}", day2_part1(&input));
-    println!("Day2, Part2: {}", day2_part2(&input));
+    println!("Day2, Part1: {}", part1(&input));
+    println!("Day2, Part2: {}", part2(&input));
     Ok(())
 }
 
-fn day2_part1(input: &[Day2Input]) -> i32 {
+fn part1(input: &[Day2Input]) -> i32 {
     let r = input.iter().fold(
         SubmarinePosition::default(),
         |mut acc, Day2Input { direction, steps }| {
@@ -47,7 +47,7 @@ fn day2_part1(input: &[Day2Input]) -> i32 {
     r.horizontal * r.vertical
 }
 
-fn day2_part2(input: &[Day2Input]) -> i32 {
+fn part2(input: &[Day2Input]) -> i32 {
     let r = input.iter().fold(
         SubmarinePosition::default(),
         |mut acc, Day2Input { direction, steps }| {
@@ -71,7 +71,7 @@ mod tests {
     use crate::{create_input, read_csv};
     use anyhow::Result;
 
-    fn example_puzzle_input() -> Result<Vec<Day2Input>, anyhow::Error> {
+    fn example_input() -> Result<Vec<Day2Input>, anyhow::Error> {
         let dir = tempfile::tempdir()?;
         let input_path = create_input(
             &dir,
@@ -89,16 +89,16 @@ mod tests {
     }
 
     #[test]
-    fn example_part1() -> Result<()> {
-        let input = example_puzzle_input()?;
-        assert_eq!(150, day2_part1(&input));
+    fn test_part1() -> Result<()> {
+        let input = example_input()?;
+        assert_eq!(150, part1(&input));
         Ok(())
     }
 
     #[test]
-    fn example_part2() -> Result<()> {
-        let input = example_puzzle_input()?;
-        assert_eq!(900, day2_part2(&input));
+    fn test_part2() -> Result<()> {
+        let input = example_input()?;
+        assert_eq!(900, part2(&input));
         Ok(())
     }
 }

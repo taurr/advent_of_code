@@ -11,12 +11,12 @@ struct Day3Input {
 
 pub fn solve_puzzle(input_path: &Path) -> Result<()> {
     let input = read_csv(input_path, &["bits"], b' ')?;
-    println!("Day3, Part1: {}", day3_part1(&input));
-    println!("Day3, Part2: {}", day3_part2(&input));
+    println!("Day3, Part1: {}", part1(&input));
+    println!("Day3, Part2: {}", part2(&input));
     Ok(())
 }
 
-fn day3_part1(input: &[Day3Input]) -> u32 {
+fn part1(input: &[Day3Input]) -> u32 {
     let input = input
         .iter()
         .map(|i| i.bits.clone())
@@ -39,7 +39,7 @@ fn day3_part1(input: &[Day3Input]) -> u32 {
     gamma * epsilon
 }
 
-fn day3_part2(input: &[Day3Input]) -> u32 {
+fn part2(input: &[Day3Input]) -> u32 {
     let input = input
         .iter()
         .map(|i| i.bits.clone())
@@ -141,7 +141,7 @@ mod tests {
     use crate::{create_input, read_csv};
     use anyhow::Result;
 
-    fn example_puzzle_input() -> Result<Vec<Day3Input>, anyhow::Error> {
+    fn example_input() -> Result<Vec<Day3Input>, anyhow::Error> {
         let dir = tempfile::tempdir()?;
         let input_path = create_input(
             &dir,
@@ -155,15 +155,15 @@ mod tests {
     }
 
     #[test]
-    fn example_part1() -> Result<()> {
-        let input = example_puzzle_input()?;
-        assert_eq!(198, day3_part1(&input));
+    fn test_part1() -> Result<()> {
+        let input = example_input()?;
+        assert_eq!(198, part1(&input));
         Ok(())
     }
 
     #[test]
     fn oxygen_co2() -> Result<()> {
-        let input = example_puzzle_input()?;
+        let input = example_input()?;
         let input = input
             .iter()
             .map(|i| i.bits.clone())
@@ -174,9 +174,9 @@ mod tests {
     }
 
     #[test]
-    fn example_part2() -> Result<()> {
-        let input = example_puzzle_input()?;
-        assert_eq!(230, day3_part2(&input));
+    fn test_part2() -> Result<()> {
+        let input = example_input()?;
+        assert_eq!(230, part2(&input));
         Ok(())
     }
 }

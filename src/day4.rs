@@ -1,22 +1,16 @@
 use anyhow::Result;
 use itertools::Itertools;
-use serde::Deserialize;
 use std::{iter::repeat, path::Path, str::FromStr};
-
-#[derive(Debug, Deserialize, PartialEq)]
-struct Day3Input {
-    bits: String,
-}
 
 pub fn solve_puzzle(input_path: &Path) -> Result<()> {
     let input = std::fs::read_to_string(input_path)?;
     let input = input.split_terminator('\n').collect_vec();
-    println!("Day4, Part1: {}", day4_part1(&input));
-    println!("Day4, Part2: {}", day4_part2(&input));
+    println!("Day4, Part1: {}", part1(&input));
+    println!("Day4, Part2: {}", part2(&input));
     Ok(())
 }
 
-fn day4_part1<T: ToString + AsRef<str>>(input: &[T]) -> u32 {
+fn part1<T: ToString + AsRef<str>>(input: &[T]) -> u32 {
     let numbers = NumberPool::from_str(&input[0]);
     let mut boards = extract_board_numbers(&input[1..])
         .map(BingoBoard::<5, 5>::from)
@@ -37,7 +31,7 @@ fn day4_part1<T: ToString + AsRef<str>>(input: &[T]) -> u32 {
     0
 }
 
-fn day4_part2<T: ToString + AsRef<str>>(input: &[T]) -> u32 {
+fn part2<T: ToString + AsRef<str>>(input: &[T]) -> u32 {
     let numbers = NumberPool::from_str(&input[0]);
     let mut boards = extract_board_numbers(&input[1..])
         .map(BingoBoard::<5, 5>::from)
@@ -264,16 +258,16 @@ mod tests {
     }
 
     #[test]
-    fn example_part1() {
+    fn test_part1() {
         let input = example_input();
-        let result = day4_part1(&input);
+        let result = part1(&input);
         assert_eq!(4512, result);
     }
 
     #[test]
-    fn example_part2() {
+    fn test_part2() {
         let input = example_input();
-        let result = day4_part2(&input);
+        let result = part2(&input);
         assert_eq!(1924, result);
     }
 }

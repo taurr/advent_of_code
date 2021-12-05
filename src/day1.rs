@@ -12,12 +12,12 @@ struct Day1Input {
 
 pub fn solve_puzzle(input_path: &Path) -> Result<()> {
     let input = read_csv(input_path, &["depth"], b'\t')?;
-    println!("Day1, Part1: {}", day1_part1(&input));
-    println!("Day1, Part2: {}", day1_part2(&input));
+    println!("Day1, Part1: {}", part1(&input));
+    println!("Day1, Part2: {}", part2(&input));
     Ok(())
 }
 
-fn day1_part1(input: &[Day1Input]) -> usize {
+fn part1(input: &[Day1Input]) -> usize {
     input
         .iter()
         .tuple_windows()
@@ -25,7 +25,7 @@ fn day1_part1(input: &[Day1Input]) -> usize {
         .count()
 }
 
-fn day1_part2(input: &[Day1Input]) -> usize {
+fn part2(input: &[Day1Input]) -> usize {
     input
         .iter()
         .tuple_windows()
@@ -54,16 +54,16 @@ mod tests {
     }
 
     #[test]
-    fn example_part1() -> Result<()> {
+    fn test_part1() -> Result<()> {
         let input = example_puzzle_input()?;
-        assert_eq!(7, day1_part1(&input));
+        assert_eq!(7, part1(&input));
         Ok(())
     }
 
     #[test]
-    fn example_part2() -> Result<()> {
+    fn test_part2() -> Result<()> {
         let input = example_puzzle_input()?;
-        assert_eq!(5, day1_part2(&input));
+        assert_eq!(5, part2(&input));
         Ok(())
     }
 }

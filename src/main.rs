@@ -4,11 +4,14 @@ use serde::Deserialize;
 use std::path::PathBuf;
 use std::{fs::File, path::Path};
 use structopt::StructOpt;
+use tracing::Level;
+use tracing_subscriber::FmtSubscriber;
 
 mod day1;
 mod day2;
 mod day3;
 mod day4;
+mod day5;
 
 #[derive(Debug, StructOpt)]
 struct Args {
@@ -47,13 +50,18 @@ enum Day {
 }
 
 fn main() -> Result<()> {
+    let subscriber = FmtSubscriber::builder()
+        .with_max_level(Level::TRACE)
+        .finish();
+    tracing::subscriber::set_global_default(subscriber)?;
+
     let args = Args::from_args_safe()?;
     match args.puzzle {
         Day::Day1 => day1::solve_puzzle(args.input.as_path()),
         Day::Day2 => day2::solve_puzzle(args.input.as_path()),
         Day::Day3 => day3::solve_puzzle(args.input.as_path()),
         Day::Day4 => day4::solve_puzzle(args.input.as_path()),
-        Day::Day5 => todo!(),
+        Day::Day5 => day5::solve_puzzle(args.input.as_path()),
         Day::Day6 => todo!(),
         Day::Day7 => todo!(),
         Day::Day8 => todo!(),
