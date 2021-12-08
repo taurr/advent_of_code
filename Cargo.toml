@@ -15,8 +15,6 @@ anyhow = "1.0.51"
 itertools = "0.10.1"
 indoc = "1.0.3"
 derive_more = "0.99.17"
-tracing = "0.1.29"
-tracing-subscriber = "0.3.3"
 regex = "1.5.4"
 image = "0.23.14"
 
