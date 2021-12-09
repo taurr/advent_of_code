@@ -13,6 +13,7 @@ mod day5;
 mod day6;
 mod day7;
 mod day8;
+mod day9;
 
 #[derive(Debug, StructOpt)]
 struct Args {
@@ -61,7 +62,7 @@ fn main() -> Result<()> {
         Day::Day6 => day6::solve_puzzle(args.input.as_path()),
         Day::Day7 => day7::solve_puzzle(args.input.as_path()),
         Day::Day8 => day8::solve_puzzle(args.input.as_path()),
-        Day::Day9 => todo!(),
+        Day::Day9 => day9::solve_puzzle(args.input.as_path()),
         Day::Day10 => todo!(),
         Day::Day11 => todo!(),
         Day::Day12 => todo!(),
