@@ -6,6 +6,7 @@ use std::{fs::File, path::Path};
 use structopt::StructOpt;
 
 mod day1;
+mod day10;
 mod day2;
 mod day3;
 mod day4;
@@ -63,7 +64,7 @@ fn main() -> Result<()> {
         Day::Day7 => day7::solve_puzzle(args.input.as_path()),
         Day::Day8 => day8::solve_puzzle(args.input.as_path()),
         Day::Day9 => day9::solve_puzzle(args.input.as_path()),
-        Day::Day10 => todo!(),
+        Day::Day10 => day10::solve_puzzle(args.input.as_path()),
         Day::Day11 => todo!(),
         Day::Day12 => todo!(),
         Day::Day13 => todo!(),
