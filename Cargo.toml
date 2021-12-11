@@ -17,6 +17,7 @@ indoc = "1.0.3"
 derive_more = "0.99.17"
 regex = "1.5.4"
 image = "0.23.14"
+
 palette = "0.6.0"
 rand = "0.8.4"
 

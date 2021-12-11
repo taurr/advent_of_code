@@ -23,7 +23,7 @@ fn part1<T: ToString + AsRef<str>>(input: &[T]) -> u32 {
                 .unmarked_numbers()
                 .iter()
                 .map(|n| *n as u32)
-                .fold1(|a, b| a + b)
+                .reduce(|a, b| a + b)
                 .unwrap_or_default();
             return unmarked_sum * number as u32;
         }
@@ -47,7 +47,7 @@ fn part2<T: ToString + AsRef<str>>(input: &[T]) -> u32 {
                 .unmarked_numbers()
                 .iter()
                 .map(|n| *n as u32)
-                .fold1(|a, b| a + b)
+                .reduce(|a, b| a + b)
                 .unwrap_or_default();
             if boards[0].is_winner() {
                 return unmarked_sum * number as u32;

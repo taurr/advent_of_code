@@ -129,7 +129,7 @@ fn part1(input: &[PuzzleInput]) -> u32 {
     let (x_max, y_max) = input
         .iter()
         .map(|l| (l.p1.x.max(l.p2.x), l.p1.y.max(l.p2.y)))
-        .fold1(|a, b| (a.0.max(b.0), a.1.max(b.1)))
+        .reduce(|a, b| (a.0.max(b.0), a.1.max(b.1)))
         .unwrap_or_default();
 
     // create heatmap
@@ -158,7 +158,7 @@ fn part2(input: &[PuzzleInput]) -> u32 {
     let (x_max, y_max) = input
         .iter()
         .map(|l| (l.p1.x.max(l.p2.x), l.p1.y.max(l.p2.y)))
-        .fold1(|a, b| (a.0.max(b.0), a.1.max(b.1)))
+        .reduce(|a, b| (a.0.max(b.0), a.1.max(b.1)))
         .unwrap_or_default();
 
     // create heatmap

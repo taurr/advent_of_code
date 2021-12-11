@@ -3,7 +3,10 @@ use image::{GrayImage, ImageBuffer, Luma, Pixel, Rgb, RgbImage};
 use itertools::Itertools;
 use palette::{FromColor, Hsv, RgbHue, Srgb};
 use rand::Rng;
-use std::{ops::DerefMut, path::Path};
+use std::{
+    ops::DerefMut,
+    path::{Path, PathBuf},
+};
 
 pub fn solve_puzzle(input_path: &Path) -> Result<()> {
     let input = std::fs::read_to_string(input_path)?;
@@ -75,7 +78,12 @@ fn part2(mut map: GrayImage) -> usize {
             }
         }
     }
-    rgb.save("day9_part2_viz.png").unwrap();
+    let mut pb = PathBuf::from("assets_day9");
+    if !pb.exists() {
+        std::fs::create_dir(&pb).unwrap();
+    }
+    pb.push("day9_part2_viz.png");
+    rgb.save(&pb).unwrap();
 
     sizes.sort_unstable();
     sizes.into_iter().rev().take(3).product()
