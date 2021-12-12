@@ -8,6 +8,7 @@ use structopt::StructOpt;
 mod day1;
 mod day10;
 mod day11;
+mod day12;
 mod day2;
 mod day3;
 mod day4;
@@ -67,7 +68,7 @@ fn main() -> Result<()> {
         Day::Day9 => day9::solve_puzzle(args.input.as_path()),
         Day::Day10 => day10::solve_puzzle(args.input.as_path()),
         Day::Day11 => day11::solve_puzzle(args.input.as_path()),
-        Day::Day12 => todo!(),
+        Day::Day12 => day12::solve_puzzle(args.input.as_path()),
         Day::Day13 => todo!(),
         Day::Day14 => todo!(),
         Day::Day15 => todo!(),
