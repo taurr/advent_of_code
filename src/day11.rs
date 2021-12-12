@@ -1,9 +1,9 @@
 use anyhow::Result;
 use image::{imageops::FilterType, GrayImage, Luma};
 use itertools::Itertools;
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 
-pub fn solve_puzzle(_input_path: &Path) -> Result<()> {
+pub fn solve_puzzle() -> Result<()> {
     println!(
         "Day11, Part1: {}",
         part1(parse_input(include_str!("../assets/day11.txt"))?)?

@@ -22,7 +22,7 @@ mod day9;
 struct Args {
     #[structopt(subcommand)]
     puzzle: Day,
-    input: PathBuf,
+    input: Option<PathBuf>,
 }
 
 #[derive(Debug, StructOpt)]
@@ -57,18 +57,18 @@ enum Day {
 fn main() -> Result<()> {
     let args = Args::from_args_safe()?;
     match args.puzzle {
-        Day::Day1 => day1::solve_puzzle(args.input.as_path()),
-        Day::Day2 => day2::solve_puzzle(args.input.as_path()),
-        Day::Day3 => day3::solve_puzzle(args.input.as_path()),
-        Day::Day4 => day4::solve_puzzle(args.input.as_path()),
-        Day::Day5 => day5::solve_puzzle(args.input.as_path()),
-        Day::Day6 => day6::solve_puzzle(args.input.as_path()),
-        Day::Day7 => day7::solve_puzzle(args.input.as_path()),
-        Day::Day8 => day8::solve_puzzle(args.input.as_path()),
-        Day::Day9 => day9::solve_puzzle(args.input.as_path()),
-        Day::Day10 => day10::solve_puzzle(args.input.as_path()),
-        Day::Day11 => day11::solve_puzzle(args.input.as_path()),
-        Day::Day12 => day12::solve_puzzle(args.input.as_path()),
+        Day::Day1 => day1::solve_puzzle(args.input.unwrap().as_path()),
+        Day::Day2 => day2::solve_puzzle(args.input.unwrap().as_path()),
+        Day::Day3 => day3::solve_puzzle(args.input.unwrap().as_path()),
+        Day::Day4 => day4::solve_puzzle(args.input.unwrap().as_path()),
+        Day::Day5 => day5::solve_puzzle(args.input.unwrap().as_path()),
+        Day::Day6 => day6::solve_puzzle(args.input.unwrap().as_path()),
+        Day::Day7 => day7::solve_puzzle(args.input.unwrap().as_path()),
+        Day::Day8 => day8::solve_puzzle(args.input.unwrap().as_path()),
+        Day::Day9 => day9::solve_puzzle(args.input.unwrap().as_path()),
+        Day::Day10 => day10::solve_puzzle(args.input.unwrap().as_path()),
+        Day::Day11 => day11::solve_puzzle(),
+        Day::Day12 => day12::solve_puzzle(),
         Day::Day13 => todo!(),
         Day::Day14 => todo!(),
         Day::Day15 => todo!(),

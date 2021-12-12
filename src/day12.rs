@@ -1,9 +1,9 @@
 use anyhow::Result;
 use itertools::Itertools;
 use petgraph::{graph::NodeIndex, Graph, Undirected};
-use std::{collections::HashMap, path::Path};
+use std::collections::HashMap;
 
-pub fn solve_puzzle(_input_path: &Path) -> Result<()> {
+pub fn solve_puzzle() -> Result<()> {
     println!(
         "Day12, Part1: {}",
         part1(parse_input(include_str!("../assets/day12.txt")))
@@ -15,15 +15,15 @@ pub fn solve_puzzle(_input_path: &Path) -> Result<()> {
     Ok(())
 }
 
-#[derive(PartialEq, PartialOrd)]
+#[derive(Debug, PartialEq, PartialOrd, Clone, Copy)]
 enum CaveSize {
     Small,
     Big,
 }
 
-impl From<String> for CaveSize {
-    fn from(name: String) -> Self {
-        if name == name.to_lowercase() {
+impl From<&str> for CaveSize {
+    fn from(name: &str) -> Self {
+        if name.chars().all(|c| c.is_ascii_lowercase()) {
             CaveSize::Small
         } else {
             CaveSize::Big
@@ -31,6 +31,7 @@ impl From<String> for CaveSize {
     }
 }
 
+#[derive(Debug, Clone, PartialEq)]
 struct CaveData {
     #[allow(dead_code)]
     name: String,
@@ -53,17 +54,19 @@ fn parse_input(
         let b = b.to_owned();
 
         let a_ix = node_indices.get(&a).copied().unwrap_or_else(|| {
+            let size = CaveSize::from(a.as_str());
             let ix = graph.add_node(CaveData {
                 name: a.clone(),
-                size: a.clone().into(),
+                size,
             });
             node_indices.insert(a, ix);
             ix
         });
         let b_ix = node_indices.get(&b).copied().unwrap_or_else(|| {
+            let size = CaveSize::from(b.as_str());
             let ix = graph.add_node(CaveData {
                 name: b.clone(),
-                size: b.clone().into(),
+                size,
             });
             node_indices.insert(b, ix);
             ix
