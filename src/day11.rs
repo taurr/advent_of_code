@@ -4,14 +4,9 @@ use itertools::Itertools;
 use std::path::PathBuf;
 
 pub fn solve_puzzle() -> Result<()> {
-    println!(
-        "Day11, Part1: {}",
-        part1(parse_input(include_str!("../assets/day11.txt"))?)?
-    );
-    println!(
-        "Day11, Part2: {}",
-        part2(parse_input(include_str!("../assets/day11.txt"))?)?
-    );
+    const INPUT: &str = include_str!("../assets/day12.txt");
+    println!("Part1: {}", part1(parse_input(INPUT)?)?);
+    println!("Part2: {}", part2(parse_input(INPUT)?)?);
     Ok(())
 }
 

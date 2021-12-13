@@ -1,22 +1,21 @@
 use anyhow::Result;
-use std::path::Path;
 
-pub fn solve_puzzle(input_path: &Path) -> Result<()> {
-    let input = include_str!("../assets/day.txt");
-    println!("Part1: {}", part1(parse_input(input)?)?);
-    println!("Part2: {}", part2(parse_input(input)?)?);
+pub fn solve_puzzle() -> Result<()> {
+    const INPUT: &str = include_str!("../assets/day.txt");
+    println!("Part1: {}", part1(parse_input(INPUT)?)?);
+    println!("Part2: {}", part2(parse_input(INPUT)?)?);
     Ok(())
 }
 
-fn parse_input(input: &str) -> Result<Vec<String>> {
+fn parse_input(input: &'static str) -> Result<Vec<&'static str>> {
     todo!()
 }
 
-fn part1(input: Vec<String>) -> Result<usize> {
+fn part1(input: Vec<&'static str>) -> Result<usize> {
     todo!()
 }
 
-fn part2(input: Vec<String>) -> Result<usize> {
+fn part2(input: Vec<&'static str>) -> Result<usize> {
     todo!()
 }
 

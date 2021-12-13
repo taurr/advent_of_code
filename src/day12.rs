@@ -2,16 +2,12 @@ use anyhow::Result;
 use itertools::Itertools;
 use petgraph::{graph::NodeIndex, Graph, Undirected};
 use std::collections::HashMap;
+use smallvec::{smallvec, SmallVec};
 
 pub fn solve_puzzle() -> Result<()> {
-    println!(
-        "Day12, Part1: {}",
-        part1(parse_input(include_str!("../assets/day12.txt")))
-    );
-    println!(
-        "Day12, Part2: {}",
-        part2(parse_input(include_str!("../assets/day12.txt")))
-    );
+    const INPUT: &str = include_str!("../assets/day12.txt");
+    println!("Part1: {}", part1(parse_input(INPUT)));
+    println!("Part2: {}", part2(parse_input(INPUT)));
     Ok(())
 }
 
@@ -34,14 +30,14 @@ impl From<&str> for CaveSize {
 #[derive(Debug, Clone, PartialEq)]
 struct CaveData {
     #[allow(dead_code)]
-    name: String,
+    name: &'static str,
     size: CaveSize,
 }
 
 fn parse_input(
-    input: &str,
+    input: &'static str,
 ) -> (
-    HashMap<String, NodeIndex>,
+    HashMap<&'static str, NodeIndex>,
     Graph<CaveData, usize, Undirected>,
 ) {
     let mut node_indices = HashMap::new();
@@ -50,24 +46,15 @@ fn parse_input(
         .lines()
         .map(|l| l.split_once('-').expect("No seperator in line"))
     {
-        let a = a.to_owned();
-        let b = b.to_owned();
-
         let a_ix = node_indices.get(&a).copied().unwrap_or_else(|| {
-            let size = CaveSize::from(a.as_str());
-            let ix = graph.add_node(CaveData {
-                name: a.clone(),
-                size,
-            });
+            let size = CaveSize::from(a);
+            let ix = graph.add_node(CaveData { name: a, size });
             node_indices.insert(a, ix);
             ix
         });
         let b_ix = node_indices.get(&b).copied().unwrap_or_else(|| {
-            let size = CaveSize::from(b.as_str());
-            let ix = graph.add_node(CaveData {
-                name: b.clone(),
-                size,
-            });
+            let size = CaveSize::from(b);
+            let ix = graph.add_node(CaveData { name: b, size });
             node_indices.insert(b, ix);
             ix
         });
@@ -76,17 +63,19 @@ fn parse_input(
     (node_indices, graph)
 }
 
+const SMALLVEC_SIZE: usize = 24;
+
 fn part1(
     (node_indices, graph): (
-        HashMap<String, NodeIndex>,
+        HashMap<&'static str, NodeIndex>,
         Graph<CaveData, usize, Undirected>,
     ),
 ) -> usize {
     let start = *node_indices.get("start").unwrap();
     let end = *node_indices.get("end").unwrap();
 
-    let mut final_paths: Vec<Vec<NodeIndex>> = Vec::new();
-    let mut investigating_paths = vec![vec![start]];
+    let mut final_paths: Vec<SmallVec<[NodeIndex;SMALLVEC_SIZE]>> = Vec::new();
+    let mut investigating_paths: Vec<SmallVec<[NodeIndex;SMALLVEC_SIZE]>> = vec![smallvec![start]];
 
     while let Some(path) = investigating_paths.pop() {
         for node in graph.neighbors(path[path.len() - 1]) {
@@ -124,15 +113,17 @@ fn part1(
 
 fn part2(
     (node_indices, graph): (
-        HashMap<String, NodeIndex>,
+        HashMap<&'static str, NodeIndex>,
         Graph<CaveData, usize, Undirected>,
     ),
 ) -> usize {
     let start = *node_indices.get("start").unwrap();
     let end = *node_indices.get("end").unwrap();
 
-    let mut final_paths: Vec<Vec<NodeIndex>> = Vec::new();
-    let mut investigating_paths = vec![vec![start]];
+    let mut final_paths: Vec<SmallVec<[NodeIndex;SMALLVEC_SIZE]>> = Vec::new();
+    final_paths.try_reserve_exact(100_000).unwrap();
+    let mut investigating_paths: Vec<SmallVec<[NodeIndex;SMALLVEC_SIZE]>> = vec![smallvec![start]];
+    investigating_paths.try_reserve_exact(100).unwrap();
 
     while let Some(path) = investigating_paths.pop() {
         for node in graph.neighbors(path[path.len() - 1]) {
@@ -149,14 +140,15 @@ fn part2(
                 continue;
             }
 
-            let mut path = path.clone();
-            path.push(node);
             let node_weight = graph.node_weight(node).unwrap();
             if node_weight.size == CaveSize::Small {
-                let counts = path
+                let mut counts = path
                     .iter()
                     .filter(|&&idx| graph.node_weight(idx).unwrap().size == CaveSize::Small)
                     .counts_by(|&idx| idx);
+                if let Some(c) = counts.get_mut(&node) {
+                    *c += 1
+                }
                 if let Some(3) = counts.get(&node) {
                     // too many small caves visited - don't investigate further
                     continue;
@@ -167,6 +159,8 @@ fn part2(
                 }
             }
 
+            let mut path = path.clone();
+            path.push(node);
             investigating_paths.push(path);
         }
     }

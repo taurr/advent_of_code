@@ -1,14 +1,21 @@
 use anyhow::{Context, Result};
 use csv::StringRecord;
+#[cfg(feature = "profile")]
+use dhat::{Dhat, DhatAlloc};
 use serde::Deserialize;
 use std::path::PathBuf;
 use std::{fs::File, path::Path};
 use structopt::StructOpt;
 
+#[cfg(feature = "profile")]
+#[global_allocator]
+static ALLOCATOR: DhatAlloc = DhatAlloc;
+
 mod day1;
 mod day10;
 mod day11;
 mod day12;
+mod day13;
 mod day2;
 mod day3;
 mod day4;
@@ -55,6 +62,9 @@ enum Day {
 }
 
 fn main() -> Result<()> {
+    #[cfg(feature = "profile")]
+    let _dhat = Dhat::start_heap_profiling();
+
     let args = Args::from_args_safe()?;
     match args.puzzle {
         Day::Day1 => day1::solve_puzzle(args.input.unwrap().as_path()),
@@ -69,7 +79,7 @@ fn main() -> Result<()> {
         Day::Day10 => day10::solve_puzzle(args.input.unwrap().as_path()),
         Day::Day11 => day11::solve_puzzle(),
         Day::Day12 => day12::solve_puzzle(),
-        Day::Day13 => todo!(),
+        Day::Day13 => day13::solve_puzzle(),
         Day::Day14 => todo!(),
         Day::Day15 => todo!(),
         Day::Day16 => todo!(),
