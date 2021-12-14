@@ -20,7 +20,7 @@ image = "0.23.14"
 petgraph = "0.6.0"
 palette = "0.6.0"
 rand = "0.8.4"
-smallvec = { version="1.7.0", features=["const_generics"]}
+smallvec = { version = "1.7.0", features = ["const_generics"] }
 dhat = { version = "0.2.4", optional = true }
 nom = "7.1.0"
 
@@ -32,3 +32,4 @@ debug = 1
 
 [features]
 profile = ["dhat"]
+visualize = []

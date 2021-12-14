@@ -1,5 +1,5 @@
 use anyhow::Result;
-use image::{imageops::FilterType, GrayImage, Luma};
+use image::{GrayImage, Luma};
 use itertools::Itertools;
 use std::path::PathBuf;
 
@@ -39,19 +39,25 @@ impl FrameCount {
         Ok(Self(0, pb, name_format.to_owned()))
     }
 
-    fn save(&mut self, img: &GrayImage) -> Result<PathBuf> {
+    #[cfg(feature = "visualize")]
+    fn save(&mut self, img: &GrayImage) -> Result<()> {
+        use image::imageops::FilterType;
+
         let mut pb = self.1.clone();
         pb.push(format!("{}.{:03}.png", self.2, self.0));
         let img = image::imageops::resize(img, 256, 256, FilterType::Nearest);
         img.save(&pb)?;
         self.0 += 1;
-        Ok(pb)
+        Ok(())
+    }
+
+    #[cfg(not(feature = "visualize"))]
+    fn save(&mut self, _: &GrayImage) -> Result<()> {
+        Ok(())
     }
 }
 
 fn part1(mut img: GrayImage) -> Result<usize> {
-    //let mut frame = FrameCount::new("assets_day11", "part1")?;
-    //frame.save(&img)?;
     let mut flash_count = 0;
 
     for _ in 0..100 {
@@ -60,7 +66,6 @@ fn part1(mut img: GrayImage) -> Result<usize> {
             flash_count += flashes.len();
             flashes = flash_adjacent(&mut img, flashes);
         }
-        //frame.save(&img)?;
         reset_flashes(&mut img);
     }
 

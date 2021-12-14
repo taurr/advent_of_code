@@ -1,9 +1,10 @@
-use std::collections::HashMap;
-
 use anyhow::{bail, Result};
 use itertools::{Itertools, MinMaxResult};
+use std::collections::HashMap;
 
 use self::parser::{parse, ParsedInput};
+
+mod parser;
 
 pub fn solve_puzzle() -> Result<()> {
     const INPUT: &str = include_str!("../assets/day14.txt");
@@ -18,25 +19,27 @@ fn parse_input(input: &'static str) -> Result<ParsedInput> {
 }
 
 fn part1(input: ParsedInput) -> Result<usize> {
-    let mut ans = input.start;
-    for _ in 0..10 {
-        let cap = ans.len() * 2;
-        let mut itt = ans.into_iter().peekable();
-        ans = Vec::with_capacity(cap);
-        while let Some(g1) = itt.next() {
-            ans.push(g1);
-            if let Some(g2) = itt.peek() {
-                if let Some(g) = input.rules.get(&(g1, *g2)) {
-                    ans.push(*g);
+    fn replace_genomes(genome: Vec<char>, rules: &HashMap<(char, char), char>) -> Vec<char> {
+        let mut new_genome = Vec::with_capacity(genome.len() * 2);
+        let mut genome_iterator = genome.into_iter().peekable();
+
+        while let Some(g1) = genome_iterator.next() {
+            new_genome.push(g1);
+            if let Some(g2) = genome_iterator.peek() {
+                if let Some(g) = rules.get(&(g1, *g2)) {
+                    new_genome.push(*g);
                 }
             }
         }
+        new_genome
     }
 
-    println!("ans (len): {:?}", ans.len());
-    let counts = ans.into_iter().counts_by(|c| c);
-    println!("counts: {:?}", counts);
+    let mut genome = input.start;
+    for _ in 0..10 {
+        genome = replace_genomes(genome, &input.rules);
+    }
 
+    let counts = genome.into_iter().counts_by(|c| c);
     match counts.values().copied().minmax() {
         MinMaxResult::NoElements => bail!("no min & max"),
         MinMaxResult::OneElement(_) => bail!("only 1 element"),
@@ -45,50 +48,46 @@ fn part1(input: ParsedInput) -> Result<usize> {
 }
 
 fn part2(input: ParsedInput) -> Result<usize> {
-    let mut map = HashMap::<(char, char), usize>::new();
-    for (a, b) in input.start.iter().tuple_windows() {
-        let key = (*a, *b);
-        *map.entry(key).or_default() += 1;
-    }
-
-    fn replace_genomes(input: &ParsedInput, freqs: HashMap<(char, char), usize>) -> HashMap<(char, char), usize> {
-        let mut new_freqs = freqs.clone();
-        for (k, v) in freqs.into_iter() {
+    fn update_genome_pairs(input: &ParsedInput, freqs: &mut HashMap<(char, char), usize>) {
+        for (k, v) in freqs.clone().into_iter() {
             if let Some(g) = input.rules.get(&k) {
-                *new_freqs.entry(k).or_default() -= v;
-                let nk1 = (k.0, *g);
-                *new_freqs.entry(nk1).or_default() += v;
-                let nk2 = (*g, k.1);
-                *new_freqs.entry(nk2).or_default() += v;
+                *freqs.entry(k).or_default() -= v;
+                *freqs.entry((k.0, *g)).or_default() += v;
+                *freqs.entry((*g, k.1)).or_default() += v;
             }
         }
-        new_freqs
     }
 
     // update genome pair frequencies
+    let mut genome_pair_frequencies = HashMap::new();
+    input
+        .start
+        .iter()
+        .copied()
+        .tuple_windows()
+        .for_each(|pair| *genome_pair_frequencies.entry(pair).or_default() += 1);
+
     for _ in 0..40 {
-        map = replace_genomes(&input, map);
+        update_genome_pairs(&input, &mut genome_pair_frequencies);
     }
 
     // count characters (all chars except start/end will be counted twice)
-    let mut map: HashMap<char, usize> =
-        map.into_iter()
-            .fold(HashMap::new(), |mut map, ((k1, k2), v)| {
-                *map.entry(k1).or_default() += v;
-                *map.entry(k2).or_default() += v;
-                map
-            });
-    *map.get_mut(&input.start[0]).unwrap() += 1;
-    *map.get_mut(&input.start[input.start.len() - 1]).unwrap() += 1;
+    let mut counts = HashMap::<char, usize>::new();
+    counts.insert(input.start[0], 1);
+    *counts
+        .entry(input.start[input.start.len() - 1])
+        .or_default() += 1;
+    for ((k1, k2), v) in genome_pair_frequencies.into_iter() {
+        *counts.entry(k1).or_default() += v;
+        *counts.entry(k2).or_default() += v;
+    }
 
-    match map.into_iter().map(|(_, v)| v/2).minmax() {
+    match counts.into_iter().map(|(_, v)| v / 2).minmax() {
         MinMaxResult::NoElements => bail!("no min & max"),
         MinMaxResult::OneElement(_) => bail!("only 1 element"),
         MinMaxResult::MinMax(min, max) => Ok(max - min),
     }
 }
-
-mod parser;
 
 #[cfg(test)]
 mod tests {

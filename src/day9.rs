@@ -1,12 +1,7 @@
 use anyhow::Result;
-use image::{GrayImage, ImageBuffer, Luma, Pixel, Rgb, RgbImage};
+use image::{GrayImage, ImageBuffer, Luma, Pixel};
 use itertools::Itertools;
-use palette::{FromColor, Hsv, RgbHue, Srgb};
-use rand::Rng;
-use std::{
-    ops::DerefMut,
-    path::{Path, PathBuf},
-};
+use std::{ops::DerefMut, path::Path};
 
 pub fn solve_puzzle(input_path: &Path) -> Result<()> {
     let input = std::fs::read_to_string(input_path)?;
@@ -59,6 +54,21 @@ fn part2(mut map: GrayImage) -> usize {
         }
     }
 
+    #[cfg(feature = "visualize")]
+    visualize(&map, filler);
+
+    sizes.sort_unstable();
+    sizes.into_iter().rev().take(3).product()
+}
+
+#[cfg(feature = "visualize")]
+fn visualize(map: &GrayImage, filler: Luma<u8>) {
+    const THRESHOLD: u8 = 9;
+
+    use image::{Rgb, RgbImage};
+    use palette::{FromColor, Hsv, RgbHue, Srgb};
+    use rand::Rng;
+
     let mut rgb = RgbImage::new(map.width(), map.height());
     let mut rng = rand::thread_rng();
     let colors = { THRESHOLD..filler.0[0] }
@@ -78,15 +88,12 @@ fn part2(mut map: GrayImage) -> usize {
             }
         }
     }
-    let mut pb = PathBuf::from("assets_day9");
+    let mut pb = std::path::PathBuf::from("assets_day9");
     if !pb.exists() {
         std::fs::create_dir(&pb).unwrap();
     }
     pb.push("day9_part2_viz.png");
     rgb.save(&pb).unwrap();
-
-    sizes.sort_unstable();
-    sizes.into_iter().rev().take(3).product()
 }
 
 fn flood_fill<F, P, Container>(
