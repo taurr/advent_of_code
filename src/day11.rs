@@ -53,6 +53,7 @@ impl FrameCount {
 
     #[cfg(not(feature = "visualize"))]
     fn save(&mut self, _: &GrayImage) -> Result<()> {
+        self.0 += 1;
         Ok(())
     }
 }

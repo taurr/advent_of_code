@@ -46,7 +46,10 @@ fn part2(mut input: ParsedInput) -> Result<()> {
         std::fs::create_dir(&pb)?;
     }
     pb.push("part2.png");
+
+    #[cfg(feature = "visualize")]
     img.save(pb.as_path())?;
+
     Ok(())
 }
 
