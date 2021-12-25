@@ -19,6 +19,7 @@ mod day13;
 mod day14;
 mod day15;
 mod day16;
+mod day17;
 mod day2;
 mod day3;
 mod day4;
@@ -86,7 +87,7 @@ fn main() -> Result<()> {
         Day::Day14 => day14::solve_puzzle(),
         Day::Day15 => day15::solve_puzzle(),
         Day::Day16 => day16::solve_puzzle(),
-        Day::Day17 => todo!(),
+        Day::Day17 => day17::solve_puzzle(),
         Day::Day18 => todo!(),
         Day::Day19 => todo!(),
         Day::Day20 => todo!(),
