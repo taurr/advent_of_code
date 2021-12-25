@@ -1,5 +1,7 @@
 use anyhow::Result;
 
+use self::parser::{parse_input, ParsedInput};
+
 pub fn solve_puzzle() -> Result<()> {
     const INPUT: &str = include_str!("../assets/day.txt");
     println!("Part1: {}", part1(parse_input(INPUT)?)?);
@@ -7,15 +9,26 @@ pub fn solve_puzzle() -> Result<()> {
     Ok(())
 }
 
-fn parse_input(input: &'static str) -> Result<Vec<&'static str>> {
+mod parser {
+    use nom::{
+        bytes::complete::tag,
+        character::complete::*,
+        multi::{fold_many0, many1},
+        IResult,
+    };
+
+    pub(crate) struct ParsedInput {}
+
+    pub(crate) fn parse_input(input: &'static str) -> anyhow::Result<ParsedInput> {
+        todo!();
+    }
+}
+
+fn part1(input: ParsedInput) -> Result<usize> {
     todo!()
 }
 
-fn part1(input: Vec<&'static str>) -> Result<usize> {
-    todo!()
-}
-
-fn part2(input: Vec<&'static str>) -> Result<usize> {
+fn part2(input: ParsedInput) -> Result<usize> {
     todo!()
 }
 
