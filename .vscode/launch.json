@@ -1,16 +1,21 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "type": "lldb",
-            "request": "launch",
-            "name": "Debug",
-            "program": "${workspaceFolder}/<your program>",
-            "args": [],
-            "cwd": "${workspaceFolder}"
-        }
-    ]
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug unit tests in library 'advent-of-code-2022'",
+      "cargo": {
+        "args": ["test", "--no-run", "--lib", "--package=advent_of_code_2022"]
+      },
+      "args": [],
+      "env": {
+        "RUST_LOG": "warn,advent_of_code_2022=trace"
+      },
+      "cwd": "${workspaceFolder}"
+    }
+  ]
 }

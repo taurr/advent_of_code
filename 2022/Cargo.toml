@@ -1,0 +1,42 @@
+[workspace]
+resolver = "2"
+members = []
+
+[package]
+name = "advent-of-code-2022"
+version = "0.1.0"
+authors = ["Johnny T. Vestergaard <jtv@jrtv.dk>"]
+readme = "README.md"
+description = """
+Short description goes here.
+"""
+edition = "2021"
+#license = "MIT OR Apache-2.0"
+#repository = "https://github.com/USERNAME/advent-of-code-2022"
+#documentation = "https://docs.rs/advent-of-code-2022"
+#keywords = []
+#categories = []
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+#[[bin]]
+
+[dependencies]
+tracing = { version = "0.1.37", default = false, features = ["attributes"] }
+#tokio = { version = "1.23.0", default=false, features = ["full"] }
+anyhow = "1.0.66"
+itertools = "0.10.5"
+derive_more = "0.99.17"
+regex = "1.7.0"
+petgraph = "0.6.2"
+rand = "0.8.5"
+ndarray = "0.15.6"
+nom = "7.1.1"
+palette = "0.6.1"
+image = "0.24.5"
+
+[dev-dependencies]
+tokio = { version = "1.23", features = ["test-util", "macros"] }
+tokio-test = "0.4"
+indoc = "1.0"
+tracing-test = "0.2.3"

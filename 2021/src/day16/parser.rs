@@ -70,7 +70,7 @@ const LITERAL_TYPE_ID: TypeId = TypeId(4);
 type BitInput<'a> = (&'a [u8], usize);
 type BitOutput<'a, T> = IResult<BitInput<'a>, (T, BitsRead)>;
 
-pub(crate) fn parse_input(input: &'static str) -> Result<Packet> {
+pub(crate) fn parse_input(input: &str) -> Result<Packet> {
     let bytes = hex_chars_to_u8(input);
     let (_, (packet, _)) = packet((&bytes[..], 0)).map_err(|e| anyhow!(e.to_string()))?;
     Ok(packet)
