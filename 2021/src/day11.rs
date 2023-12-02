@@ -117,7 +117,7 @@ fn flash_adjacent(img: &mut GrayImage, flashes: Vec<(u32, u32)>) -> Vec<(u32, u3
                 if xt == x && yt == y {
                     continue;
                 }
-                let mut p = img.get_pixel_mut(xt, yt);
+                let p = img.get_pixel_mut(xt, yt);
                 if p.0[0] <= (ENERGY_FLASH - ENERGY_INCREASE) {
                     p.0[0] += ENERGY_INCREASE;
                     if p.0[0] > ENERGY_FLASH_THRESHOLD {
