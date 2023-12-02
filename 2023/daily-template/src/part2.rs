@@ -21,7 +21,7 @@ mod tests {
     fn test_process(_trace: &()) -> Result<()> {
         todo!("haven't built test yet");
         let input = indoc::indoc! {r#"
-        "#};
+            "#};
         assert_eq!(0, process(input)?);
         Ok(())
     }
