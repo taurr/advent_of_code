@@ -30,11 +30,13 @@ fn process_line(line: &str) -> u32 {
         index += 1;
         let digit = lookup
             .into_iter()
-            .find(|(prefix, _)| indexed_line.starts_with(prefix))
-            .map(|(prefix, digit)| {
-                let size = prefix.len();
-                trace!(indexed_line, prefix, size, digit);
-                digit
+            .find_map(|(prefix, digit)| {
+                if indexed_line.starts_with(prefix) {
+                    trace!(indexed_line, prefix, digit);
+                    Some(digit)
+                } else {
+                    None
+                }
             })
             .or_else(|| {
                 let digit = indexed_line.chars().next().and_then(|c| c.to_digit(10));
@@ -64,24 +66,24 @@ mod tests {
     use anyhow::Result;
     use rstest::*;
 
-    #[fixture]
-    #[once]
-    #[tracing::instrument(level = "trace", skip())]
-    fn trace() -> () {
-        tracing_subscriber::fmt::init();
-    }
-
     #[rstest]
+    #[case("two1nine", 29)]
+    #[case("eightwothree", 83)]
+    #[case("abcone2threexyz", 13)]
+    #[case("xtwone3four", 24)]
+    #[case("4nineeightseven2", 42)]
+    #[case("zoneight234", 14)]
+    #[case("7pqrstsixteen", 76)]
+    #[case("oneight", 18)]
     #[tracing::instrument(level = "trace", skip())]
-    fn test_overlapping_numbers(_trace: &()) -> Result<()> {
-        let input = indoc::indoc! {r#"oneight"#};
-        assert_eq!(18, process(input)?);
+    fn test_process_line(#[case] input: &str, #[case] value: u32) -> Result<()> {
+        assert_eq!(value, process(input)?);
         Ok(())
     }
 
     #[rstest]
     #[tracing::instrument(level = "trace", skip())]
-    fn test_process(_trace: &()) -> Result<()> {
+    fn test_process() -> Result<()> {
         let input = indoc::indoc! {r#"
             two1nine
             eightwothree

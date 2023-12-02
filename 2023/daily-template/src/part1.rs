@@ -10,15 +10,8 @@ mod tests {
     use anyhow::Result;
     use rstest::*;
 
-    #[fixture]
-    #[once]
-    #[tracing::instrument(level = "trace", skip())]
-    fn trace() -> () {
-        tracing_subscriber::fmt::init();
-    }
-
     #[rstest]
-    fn test_process(_trace: &()) -> Result<()> {
+    fn test_process() -> Result<()> {
         todo!("haven't built test yet");
         let input = indoc::indoc! {r#"
             "#};

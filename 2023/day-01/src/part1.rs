@@ -33,16 +33,9 @@ mod tests {
     use anyhow::Result;
     use rstest::*;
 
-    #[fixture]
-    #[once]
-    #[tracing::instrument(level = "trace", skip())]
-    fn trace() -> () {
-        tracing_subscriber::fmt::init();
-    }
-
     #[tracing::instrument(level = "trace", skip())]
     #[rstest]
-    fn test_process(_trace: &()) -> Result<()> {
+    fn test_process() -> Result<()> {
         let input = indoc::indoc! {r#"
             1abc2
             pqr3stu8vwx
