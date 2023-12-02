@@ -1,15 +1,13 @@
-use tracing::{debug, info};
-
 use crate::custom_error::AocError;
+use itertools::Itertools;
+use tracing::{debug, info};
 
 #[tracing::instrument(level = "trace", skip(input))]
 pub fn process(input: &str) -> Result<u32, AocError> {
     let calibration_value = input
         .lines()
         .map(process_line)
-        .collect::<Result<Vec<u32>, _>>()?
-        .iter()
-        .sum();
+        .process_results(|iter| iter.sum())?;
     info!(calibration_value);
     Ok(calibration_value)
 }
