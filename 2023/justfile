@@ -2,9 +2,7 @@ work day part:
     cargo watch --ignore 'benches/*' --ignore 'flamegraphs/*' --ignore 'perf.data' --ignore 'perf.data.*' --ignore 'dhat-heap.json' \
         -x "check -p {{day}}" \
         -s "just test -p '{{day}} {{part}}'" \
-        -s "just lint {{day}}" \
-        -s "just bench {{day}} {{part}}" \
-        -s "just flamegraph {{day}} {{part}}"
+        -s "just lint {{day}}"
 run day part:
     cargo run -p {{day}} --bin {{part}}
 lint day:
@@ -14,8 +12,10 @@ test +FLAGS='-p day-01':
     cargo nextest run {{FLAGS}}
 bench-all:
     cargo bench -q > benches/benchmarks.txt
-bench day part:
-    cargo bench --bench {{day}} {{part}} >> benches/{{day}}.bench.txt
+bench day:
+    cargo bench --bench {{day}} >> benches/{{day}}.bench.txt
+    just flamegraph {{day}} part1
+    just flamegraph {{day}} part2
 flamegraph day part:
     cargo flamegraph --profile flamegraph --root --package {{day}} --bin {{part}} -o flamegraphs/{{day}}--{{part}}.svg
 dhat day part:

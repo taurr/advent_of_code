@@ -14,11 +14,11 @@ pub fn process(input: &str) -> Result<u32, AocError> {
 
 #[tracing::instrument(level = "trace", skip(line))]
 fn process_line(line: &str) -> Result<u32, AocError> {
-    let mut itt = line.chars().filter_map(|c| c.to_digit(10));
-    let first = itt
+    let mut digit_iterator = line.chars().filter_map(|c| c.to_digit(10));
+    let first = digit_iterator
         .next()
         .ok_or(AocError::invalid_input(line, "expected at least 1 digit"))?;
-    let last = itt.last().unwrap_or(first);
+    let last = digit_iterator.last().unwrap_or(first);
 
     let value = first * 10 + last;
     debug!(value);

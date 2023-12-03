@@ -1,5 +1,3 @@
-use std::iter::from_fn;
-
 use crate::custom_error::AocError;
 use tracing::{debug, info, trace};
 
@@ -12,45 +10,35 @@ pub fn process(input: &str) -> anyhow::Result<u32, AocError> {
 
 #[tracing::instrument(level = "trace")]
 fn process_line(line: &str) -> u32 {
-    let mut line_iter = from_fn({
-        let mut index = 0;
-        move || loop {
-            const DIGIT_LOOKUP: [(&str, u32); 9] = [
-                ("one", 1),
-                ("two", 2),
-                ("three", 3),
-                ("four", 4),
-                ("five", 5),
-                ("six", 6),
-                ("seven", 7),
-                ("eight", 8),
-                ("nine", 9),
-            ];
-            let indexed_line = &line[index..];
-            index += 1;
-            let digit = DIGIT_LOOKUP
-                .into_iter()
-                .find_map(|(prefix, digit)| {
-                    if indexed_line.starts_with(prefix) {
-                        trace!(indexed_line, prefix, digit);
-                        Some(digit)
-                    } else {
-                        None
-                    }
-                })
-                .or_else(|| {
-                    let digit = indexed_line.chars().next().and_then(|c| c.to_digit(10));
-                    trace!(indexed_line, digit);
-                    digit
-                });
-
-            if digit.is_none() && index < line.len() {
-                continue;
-            }
-            break digit;
-        }
+    let mut line_iter = (0..line.len()).filter_map(|index| {
+        const DIGIT_LOOKUP: [(&str, u32); 9] = [
+            ("one", 1),
+            ("two", 2),
+            ("three", 3),
+            ("four", 4),
+            ("five", 5),
+            ("six", 6),
+            ("seven", 7),
+            ("eight", 8),
+            ("nine", 9),
+        ];
+        let indexed_line = &line[index..];
+        DIGIT_LOOKUP
+            .into_iter()
+            .find_map(|(prefix, digit)| {
+                if indexed_line.starts_with(prefix) {
+                    trace!(indexed_line, prefix, digit);
+                    Some(digit)
+                } else {
+                    None
+                }
+            })
+            .or_else(|| {
+                let digit = indexed_line.chars().next().and_then(|c| c.to_digit(10));
+                trace!(indexed_line, digit);
+                digit
+            })
     });
-
     if let Some(first) = line_iter.next() {
         let last = line_iter.last().unwrap_or(first);
         let value = first * 10 + last;
