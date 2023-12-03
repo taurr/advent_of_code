@@ -27,7 +27,7 @@ enum_dispatch = "0.3.12"
 rstest = "0.18.2"      # https://crates.io/crates/rstest
 rstest_reuse = "0.6.0" # https://crates.io/crates/rstest_reuse
 
-# Benchmarking/profiling
+# Logging/benchmarking/profiling
 tracing = "0.1.40"
 tracing-subscriber = { version = "0.3.18", features = [
     "env-filter",

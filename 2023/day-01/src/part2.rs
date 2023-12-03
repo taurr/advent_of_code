@@ -80,7 +80,8 @@ mod tests {
             xtwone3four
             4nineeightseven2
             zoneight234
-            7pqrstsixteen"#};
+            7pqrstsixteen
+        "#};
         assert_eq!(281, process(input)?);
         Ok(())
     }

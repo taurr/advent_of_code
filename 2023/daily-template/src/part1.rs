@@ -12,7 +12,6 @@ mod tests {
 
     #[rstest]
     fn test_process() -> Result<()> {
-        todo!("haven't built test yet");
         let input = indoc::indoc! {r#"
             "#};
         assert_eq!(0, process(input)?);

@@ -1,0 +1,31 @@
+[package]
+name = "day-03"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+itertools = { workspace = true }
+#nom = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+dhat = { workspace = true }
+derive_more = { workspace = true }
+#derive-new = { workspace = true }
+#glam = { workspace = true }
+
+[dev-dependencies]
+divan = { workspace = true }
+indoc = { workspace = true }
+rstest = { workspace = true }
+
+[[bench]]
+name = "day-03"
+path = "benches/benchmarks.rs"
+harness = false
+
+[features]
+dhat-heap = []
