@@ -1,19 +1,10 @@
-use crate::{custom_error::AocError, parser::parse_games, GamePick};
+use crate::{custom_error::AocError, parser::parse_games};
 
 #[tracing::instrument(level = "trace", skip(input))]
 pub fn process(input: &str) -> Result<u32, AocError> {
     let (_, games) = parse_games(input).map_err(|e| AocError::ParserError(e.to_string()))?;
-    let games = games.into_iter().map(|game| {
-        game.pickings
-            .into_iter()
-            .fold(GamePick::default(), |mut cube, picking| {
-                cube.red = cube.red.max(picking.red);
-                cube.green = cube.green.max(picking.green);
-                cube.blue = cube.blue.max(picking.blue);
-                cube
-            })
-    });
-    let power = games.map(|cube| cube.red * cube.green * cube.blue);
+    let cubes_in_games = games.into_iter().map(|game| game.cubes_in_game());
+    let power = cubes_in_games.map(|cube| cube.red * cube.green * cube.blue);
     let power_sum = power.sum::<u32>();
     Ok(power_sum)
 }

@@ -1,5 +1,5 @@
 use anyhow::{Context, Result};
-use day_02::{part1::process, GamePick};
+use day_02::{part1::process, CubeCollection};
 
 #[cfg(feature = "dhat-heap")]
 #[global_allocator]
@@ -14,7 +14,7 @@ fn main() -> Result<()> {
     tracing_subscriber::fmt::init();
 
     let file = include_str!("../../input.txt");
-    let result = process(file, GamePick::new(12, 13, 14)).context("process part 1")?;
+    let result = process(file, CubeCollection::new(12, 13, 14)).context("process part 1")?;
     println!("{}", result);
     Ok(())
 }

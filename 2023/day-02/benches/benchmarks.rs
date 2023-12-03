@@ -9,7 +9,7 @@ fn main() {
 fn part1() {
     part1::process(
         divan::black_box(include_str!("../input.txt",)),
-        divan::black_box(GamePick::new(12, 13, 14)),
+        divan::black_box(CubeCollection::new(12, 13, 14)),
     )
     .unwrap();
 }

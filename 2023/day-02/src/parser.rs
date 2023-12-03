@@ -8,7 +8,7 @@ use nom::{
 
 use crate::Game;
 
-use super::GamePick;
+use super::CubeCollection;
 
 #[tracing::instrument(level = "trace", skip(input))]
 pub fn parse_games(input: &str) -> IResult<&str, Vec<Game>> {
@@ -24,8 +24,8 @@ fn game(input: &str) -> IResult<&str, Game> {
 }
 
 #[tracing::instrument(level = "trace", skip(input))]
-fn game_pick(input: &str) -> IResult<&str, GamePick> {
-    let mut cube = GamePick::default();
+fn game_pick(input: &str) -> IResult<&str, CubeCollection> {
+    let mut cube = CubeCollection::default();
     let (input, _) = separated_list1(
         tag(", "),
         alt((
