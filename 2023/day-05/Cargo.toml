@@ -1,5 +1,5 @@
 [package]
-name = "{{project-name}}"
+name = "day-05"
 version = "0.1.0"
 edition = "2021"
 
@@ -14,6 +14,8 @@ anyhow = { workspace = true }
 thiserror = { workspace = true }
 dhat = { workspace = true }
 derive_more = { workspace = true }
+rayon = { workspace = true }
+indicatif = { workspace = true }
 
 [dev-dependencies]
 divan = { workspace = true }
@@ -22,7 +24,7 @@ rstest = { workspace = true }
 test-log = { workspace = true }
 
 [[bench]]
-name = "{{project-name}}"
+name = "day-05"
 path = "benches/benchmarks.rs"
 harness = false
 

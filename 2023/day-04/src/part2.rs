@@ -9,15 +9,15 @@ pub fn process(input: &str) -> Result<u32, AocError> {
         .into_iter()
         .map(|(card, (winning, ours))| (card, winning.intersection(&ours).count() as u32))
         .fold(HashMap::new(), |mut map, (card, wins)| {
-            let cards = *map.entry(card).and_modify(|e| *e += 1u32).or_insert(1);
+            let number_of_cards = *map.entry(card).and_modify(|e| *e += 1u32).or_insert(1);
             for card_won in (card + 1)..=(card + wins) {
                 map.entry(card_won)
-                    .and_modify(|e| *e += cards)
-                    .or_insert(cards);
+                    .and_modify(|e| *e += number_of_cards)
+                    .or_insert(number_of_cards);
             }
             map
         })
-        .values()
+        .into_values()
         .sum::<u32>();
 
     Ok(result)
